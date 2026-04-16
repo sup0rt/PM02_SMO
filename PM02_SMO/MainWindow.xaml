@@ -1,0 +1,95 @@
+﻿<Window x:Class="PM02_SMO.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PM02_SMO"
+        mc:Ignorable="d"
+        Title="Расчет систем массового обслуживания (СМО)" MinHeight="600" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            <GroupBox Header="Тип системы" Margin="0,0,0,10">
+                <StackPanel>
+                    <RadioButton x:Name="SingleChannel" Content="Одноканальная" IsChecked="True"/>
+                    <RadioButton x:Name="MultiChannel" Content="Многоканальная"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Тип СМО" Margin="0,0,0,10">
+                <ComboBox x:Name="ProblemType" SelectionChanged="ProblemType_Changed">
+                    <ComboBoxItem Content="С отказами"/>
+                    <ComboBoxItem Content="С ожиданием (неограниченная очередь)"/>
+                    <ComboBoxItem Content="С ожиданием (ограниченная очередь)"/>
+                    <ComboBoxItem Content="С фиксированным временем обслуживания"/>
+                    <ComboBoxItem Content="С ограниченным временем ожидания"/>
+                </ComboBox>
+            </GroupBox>
+
+            <GroupBox Header="Параметры системы" Margin="0,0,0,10">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock Text="Интенсивность потока (λ):" Width="220"/>
+                        <TextBox x:Name="LambdaInput" Width="100" Text=""/>
+                        <TextBlock Text="ед/время" Margin="10,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock Text="Интенсивность обслуживания (μ):" Width="220"/>
+                        <TextBox x:Name="MuInput" Width="100" Text=""/>
+                        <TextBlock Text="ед/время" Margin="10,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock Text="Время обслуживания (t):" Width="220"/>
+                        <TextBox x:Name="ServiceTimeInput" Width="100"/>
+                        <TextBlock Text="ед времени" Margin="10,0"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ChannelInput" Orientation="Horizontal" Margin="0,5" Visibility="Collapsed">
+                        <TextBlock Text="Количество каналов (n):" Width="220"/>
+                        <TextBox x:Name="ChannelCount" Width="100" Text="2"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="QueueInput" Orientation="Horizontal" Margin="0,5" Visibility="Collapsed">
+                        <TextBlock Text="Размер очереди (m):" Width="220"/>
+                        <TextBox x:Name="QueueSize" Width="100" Text="5"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="TimeInput" Orientation="Horizontal" Margin="0,5" Visibility="Collapsed">
+                        <TextBlock Text="Время ожидания (τ):" Width="220"/>
+                        <TextBox x:Name="MaxTime" Width="100"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="StateInput" Orientation="Horizontal" Margin="0,5">
+                        <TextBlock Text="Макс. состояние для расчета:" Width="220"/>
+                        <TextBox x:Name="MaxState" Width="100" Text="10"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Кнопки управления -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <Button x:Name="CalculateBtn" Content="Рассчитать" Click="Calculate_Click" Margin="0,0,10,0" Padding="20,5" Background="LightGreen" FontWeight="Bold"/>
+                <Button Content="Импорт из Excel" Click="ImportFromExcel_Click" Margin="0,0,10,0" Padding="15,5" Background="LightSkyBlue"/>
+                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Padding="15,5" Background="LightSkyBlue"/>
+            </StackPanel>
+
+            <GroupBox Header="Результаты">
+                <StackPanel>
+                    <TabControl>
+                        <TabItem Header="Основные показатели">
+                            <ScrollViewer MaxHeight="300">
+                                <StackPanel x:Name="ResultsPanel" Margin="10"/>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="Вероятности состояний">
+                            <ScrollViewer MaxHeight="300">
+                                <StackPanel x:Name="ProbabilitiesPanel" Margin="10"/>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
